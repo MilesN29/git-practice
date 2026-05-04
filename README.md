@@ -12,3 +12,8 @@ Practicing with Git
 ## Technologies
 - Python 3
 - Git & GitHub
+
+## Project Answers:
+1. Challenge: Find a specific commit
+	`git log - p`
+2.

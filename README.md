@@ -17,3 +17,5 @@ Practicing with Git
 1. Challenge: Find a specific commit
 	`git log - p`
 2.
+
+## Updated from GitHub

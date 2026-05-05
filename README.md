@@ -26,3 +26,7 @@ Practicing with Git
 
 ## Contributors
 - Michael DiGiovanna
+
+# Testing Branch Protection
+
+This change should be blocked by branch protection!

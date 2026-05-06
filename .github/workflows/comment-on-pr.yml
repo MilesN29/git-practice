@@ -1,0 +1,34 @@
+name: PR Comment
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+    - name: Get Spotify data
+      id: spotify_data
+      run: |
+        data=$(curl -fsS https://spotify-api-111147801991.us-central1.run.app/all -H "Accept: application/json")
+        song_title=$(echo "$data" | jq -r '.recentlyPlayed[0].name')
+        song_link=$(echo "$data" | jq -r '.recentlyPlayed[0].trackUrl')
+
+        echo "song_title=$song_title" >> "$GITHUB_OUTPUT"
+        echo "song_link=$song_link" >> "$GITHUB_OUTPUT"
+    - name: Comment on PR
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const songTitle = '${{ steps.spotify_data.outputs.song_title }}';
+          const songLink = '${{ steps.spotify_data.outputs.song_link }}';
+          const commentBody = `I see you're working on a PR. Here's a song I'm currently enjoying: [${songTitle}](${songLink})`;
+          await github.rest.issues.createComment({
+            issue_number: context.payload.pull_request.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: commentBody
+          });

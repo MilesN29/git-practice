@@ -1,0 +1,14 @@
+name: Dad Joke
+
+on:
+  [push]
+
+jobs:
+  dad-joke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get a dad joke
+        id: get_joke
+        run: |
+          joke=$(curl -s https://icanhazdadjoke.com/ -H "Accept: application/json" | jq -r '.joke')
+          echo "$joke"
